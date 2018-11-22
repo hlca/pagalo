@@ -11,6 +11,7 @@ class Pagalo {
 	static function register(Customer $customer, Card $card) {
 		$client = new HttpClient();
 		$url = config('pagalo.url') . '/api/v1/boveda/nuevo/' . config('pagalo.business_key');
+
 		$business = [
 			'key_secret' => config('pagalo.key_secret'),
 			'key_public' => config('pagalo.key_public'),
@@ -32,11 +33,12 @@ class Pagalo {
 					'Content-Type' => 'application/json',
 				],
 			]);
-			$responseBody = $response->getBody()->read(1024);
+
+			$responseBody = json_decode($response->getBody()->read(1024), true);
 		} catch (ClientException $e) {
-			$responseBody = $e->getResponse()->getBody()->read(1024);
+			$responseBody = json_decode($e->getResponse()->getBody()->read(1024), true);
 		} catch (ServerException $e) {
-			$responseBody = $e->getResponse()->getBody()->read(1024);
+			$responseBody = json_decode($e->getResponse()->getBody()->read(1024), true);
 		} catch (Exception $e) {
 			$responseBody = [
 				'descripcion' => 'Error desconocido, revise su configuración.',
@@ -45,6 +47,12 @@ class Pagalo {
 			];
 		}
 
-		return $responseBody;
+		$customResponse = [
+			'description' => $responseBody['descripcion'],
+			'valid' => $responseBody['decision'] == 'ACCEPT',
+			'token' => array_key_exists('token', $responseBody) ? $responseBody['token'] : null,
+		];
+
+		return (object) $customResponse;
 	}
 }
