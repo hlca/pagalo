@@ -1,0 +1,22 @@
+{
+    "name": "hlca/pagalo",
+    "description": "Pagalo for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hsing-Li",
+            "email": "chang@hsing.li"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "nesbot/carbon": "^2.6"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hlca\\Pagalo\\PagaloServiceProvider"
+            ]
+        }
+    }
+}
