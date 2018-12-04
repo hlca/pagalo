@@ -14,6 +14,8 @@ class Item {
 		$this->productId = $productId;
 		$this->quantity = $quantity;
 		$this->subTotal = $price * $quantity;
+		$this->name = $name;
+		$this->price = $price;
 	}
 
 	public function pagaditoArray() {
