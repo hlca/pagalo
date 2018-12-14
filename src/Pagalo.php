@@ -78,9 +78,11 @@ class Pagalo {
 		$requestJSON = [
 			'empresa' => $business,
 			'cliente' => $customer->pagaditoJSONString(),
-			'detalle' => '',
+			'detalle' => json_encode(['id_producto' => 0, 'cantidad' => 0, 'tipo' => 'register', 'nombre' => 'register', 'precio' => 0, 'Subtotal' => 0]),
 			'tarjetaPagalo' => $card->pagaditoJSONString(),
 		];
+
+		dump($requestJSON);
 
 		try {
 			$response = $client->request('POST', $url, [
@@ -90,7 +92,7 @@ class Pagalo {
 					'Content-Type' => 'application/json',
 				],
 			]);
-
+			dump($response);
 			$responseBody = json_decode($response->getBody()->read(1024), true);
 		} catch (ClientException $e) {
 			$responseBody = json_decode($e->getResponse()->getBody()->read(1024), true);
