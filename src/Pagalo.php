@@ -82,8 +82,6 @@ class Pagalo {
 			'tarjetaPagalo' => $card->pagaditoJSONString(),
 		];
 
-		dump($requestJSON);
-
 		try {
 			$response = $client->request('POST', $url, [
 				'json' => $requestJSON,
@@ -92,7 +90,6 @@ class Pagalo {
 					'Content-Type' => 'application/json',
 				],
 			]);
-			dump($response);
 			$responseBody = json_decode($response->getBody()->read(1024), true);
 		} catch (ClientException $e) {
 			$responseBody = json_decode($e->getResponse()->getBody()->read(1024), true);
